@@ -4,18 +4,18 @@ using UnityEngine.Rendering.Universal;
 
 namespace fpsRed.Graphics.RendererFeatures
 {
-    public class PixelateFeature : ScriptableRendererFeature
+    public class PointFeature : ScriptableRendererFeature
     {
         [SerializeField] private bool runInSceneView;
-        [SerializeField] private PixelatePassSettings settings;
-        private PixelatePass pixelatePass;
+        [SerializeField] private PointPassSettings settings;
+        private PointPass pixelatePass;
 
         private Material material;
 
         public override void Create()
         {
-            material = CoreUtils.CreateEngineMaterial("Screen/Pixelate");
-            pixelatePass = new PixelatePass(settings, material);
+            material = CoreUtils.CreateEngineMaterial("Screen/Point");
+            pixelatePass = new PointPass(settings, material);
         }
 
         protected override void Dispose(bool disposing)
@@ -25,7 +25,7 @@ namespace fpsRed.Graphics.RendererFeatures
 
         public override void SetupRenderPasses(ScriptableRenderer renderer, in RenderingData renderingData)
         {
-            pixelatePass.ConfigureInput(ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Depth | ScriptableRenderPassInput.Normal);
+            pixelatePass.ConfigureInput(ScriptableRenderPassInput.Color);
             pixelatePass.SetTarget(renderer.cameraColorTargetHandle);
         }
 
