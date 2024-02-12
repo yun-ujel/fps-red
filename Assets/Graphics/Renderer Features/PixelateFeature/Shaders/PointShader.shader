@@ -21,10 +21,15 @@ Shader "Screen/Point"
             SamplerState sampler_point_clamp;
             TEXTURE2D(_CameraOpaqueTexture);
 
+            int _PaletteSize;
+
             half4 frag (Varyings input) : SV_Target
             {
                 half4 color = _CameraOpaqueTexture.Sample(sampler_point_clamp, input.texcoord);
-                return color;
+
+                half avg = (color.r + color.g + color.b) / 3;
+
+                return floor(color * (_PaletteSize - 1) + 0.5) / (_PaletteSize - 1);
             }
             ENDHLSL
         }
