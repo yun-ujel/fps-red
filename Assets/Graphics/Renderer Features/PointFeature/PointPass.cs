@@ -34,7 +34,7 @@ namespace fpsRed.Graphics.RendererFeatures
             CommandBuffer cmd = CommandBufferPool.Get();
             using (new ProfilingScope(cmd, new ProfilingSampler("Pixelate Pass")))
             {
-
+                material.SetFloat("_RedThreshold", settings.RedThreshold);
 
                 Blitter.BlitCameraTexture(cmd, cameraColorTarget, cameraColorTarget, material, 0);
             }

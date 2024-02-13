@@ -21,10 +21,21 @@ Shader "Screen/Point"
             SamplerState sampler_point_clamp;
             TEXTURE2D(_CameraOpaqueTexture);
 
+            float _RedThreshold;
+
             half4 frag (Varyings input) : SV_Target
             {
+                int paletteSize = 3;
+
                 half4 color = _CameraOpaqueTexture.Sample(sampler_point_clamp, input.texcoord);
-                return color;
+                half joe = color;
+                joe -= color.b;
+                joe -= color.g;
+
+                half4 red = half4(1, 0, 0, 1);
+                half quantize = color = floor(color * (paletteSize - 1) + 0.5) / (paletteSize - 1);
+
+                return joe > _RedThreshold ? red : quantize;
             }
             ENDHLSL
         }
