@@ -4,9 +4,9 @@ using UnityEngine.Rendering.Universal;
 
 namespace fpsRed.Graphics.RendererFeatures
 {
-    public class PointPass : ScriptableRenderPass
+    public class PalettePass : ScriptableRenderPass
     {
-        public PointPass(PointPassSettings settings, Material material)
+        public PalettePass(PalettePassSettings settings, Material material)
         {
             this.settings = settings;
             renderPassEvent = settings.RenderPassEvent;
@@ -14,7 +14,7 @@ namespace fpsRed.Graphics.RendererFeatures
             this.material = material;
         }
 
-        private PointPassSettings settings;
+        private PalettePassSettings settings;
         private RTHandle cameraColorTarget;
 
         private Material material;
@@ -35,6 +35,7 @@ namespace fpsRed.Graphics.RendererFeatures
             using (new ProfilingScope(cmd, new ProfilingSampler("Pixelate Pass")))
             {
                 material.SetInt("_PaletteSize", settings.PaletteSize);
+                material.SetTexture("_PaletteTexture", settings.Palette);
 
                 Blitter.BlitCameraTexture(cmd, cameraColorTarget, cameraColorTarget, material, 0);
             }

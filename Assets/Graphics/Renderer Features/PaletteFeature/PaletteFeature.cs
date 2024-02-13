@@ -4,18 +4,18 @@ using UnityEngine.Rendering.Universal;
 
 namespace fpsRed.Graphics.RendererFeatures
 {
-    public class PointFeature : ScriptableRendererFeature
+    public class PaletteFeature : ScriptableRendererFeature
     {
         [SerializeField] private bool runInSceneView;
-        [SerializeField] private PointPassSettings settings;
-        private PointPass pixelatePass;
+        [SerializeField] private PalettePassSettings settings;
+        private PalettePass pixelatePass;
 
         private Material material;
 
         public override void Create()
         {
-            material = CoreUtils.CreateEngineMaterial("Screen/Point");
-            pixelatePass = new PointPass(settings, material);
+            material = CoreUtils.CreateEngineMaterial("Screen/Palette");
+            pixelatePass = new PalettePass(settings, material);
         }
 
         protected override void Dispose(bool disposing)

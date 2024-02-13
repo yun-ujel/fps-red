@@ -78,3 +78,5 @@ MonoBehaviour:
   settings:
     <RenderPassEvent>k__BackingField: 550
     <PaletteSize>k__BackingField: 4
+    <Palette>k__BackingField: {fileID: 2800000, guid: 1f7533c08a6038447a699e333bf013c4,
+      type: 3}

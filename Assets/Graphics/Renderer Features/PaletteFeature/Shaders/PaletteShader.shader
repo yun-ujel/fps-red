@@ -1,4 +1,4 @@
-Shader "Screen/Point"
+Shader "Screen/Palette"
 {
     SubShader
     {
@@ -21,15 +21,16 @@ Shader "Screen/Point"
             SamplerState sampler_point_clamp;
             TEXTURE2D(_CameraOpaqueTexture);
 
+            TEXTURE2D(_PaletteTexture);
+
             int _PaletteSize;
 
             half4 frag (Varyings input) : SV_Target
             {
-                half4 color = _CameraOpaqueTexture.Sample(sampler_point_clamp, input.texcoord);
+                half color = _CameraOpaqueTexture.Sample(sampler_point_clamp, input.texcoord);
+                color = floor(color * (_PaletteSize - 1) + 0.5) / (_PaletteSize - 1);
 
-                half avg = (color.r + color.g + color.b) / 3;
-
-                return floor(color * (_PaletteSize - 1) + 0.5) / (_PaletteSize - 1);
+                return _PaletteTexture.Sample(sampler_point_clamp, color);
             }
             ENDHLSL
         }
