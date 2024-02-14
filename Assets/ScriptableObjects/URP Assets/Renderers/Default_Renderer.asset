@@ -1,38 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3642432900277017637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb753a48f5750e649a73bd40ccea8226, type: 3}
-  m_Name: PointFeature
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  runInSceneView: 0
-  settings:
-    <RenderPassEvent>k__BackingField: 550
-    <RedThreshold>k__BackingField: 0.7
---- !u!114 &-3591008237631053905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287771d6b24065c42a34eebec730a90e, type: 3}
-  m_Name: NormalsFeature
-  m_EditorClassIdentifier: 
-  m_Active: 0
-  runInSceneView: 1
-  settings:
-    <RenderPassEvent>k__BackingField: 550
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,10 +17,8 @@ MonoBehaviour:
       type: 3}
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
-  - {fileID: 6633161729715848267}
-  - {fileID: -3591008237631053905}
-  - {fileID: -3642432900277017637}
-  m_RendererFeatureMap: 4bc46dfd72b90d5cafdf7faa082d2acedbe3ca5c937a73cd
+  - {fileID: 3117116314630633275}
+  m_RendererFeatureMap: 3b3722e1c538422b
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -96,7 +61,7 @@ MonoBehaviour:
   m_CopyDepthMode: 1
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
---- !u!114 &6633161729715848267
+--- !u!114 &3117116314630633275
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,13 +70,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f594849dc885926498f1f57bc81e4bda, type: 3}
-  m_Name: PointFeature
+  m_Script: {fileID: 11500000, guid: bb753a48f5750e649a73bd40ccea8226, type: 3}
+  m_Name: RedPaletteFeature
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   runInSceneView: 1
   settings:
     <RenderPassEvent>k__BackingField: 550
-    <PaletteSize>k__BackingField: 4
-    <Palette>k__BackingField: {fileID: 2800000, guid: 1f7533c08a6038447a699e333bf013c4,
+    <RedThreshold>k__BackingField: 0.8
+    <PaletteSize>k__BackingField: 6
+    <Palette>k__BackingField: {fileID: 2800000, guid: d276b15920332354da67c6b16413ce0e,
       type: 3}
