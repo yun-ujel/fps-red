@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PointFeature
   m_EditorClassIdentifier: 
   m_Active: 1
-  runInSceneView: 1
+  runInSceneView: 0
   settings:
     <RenderPassEvent>k__BackingField: 550
     <RedThreshold>k__BackingField: 0.7
