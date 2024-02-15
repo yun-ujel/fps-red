@@ -8,14 +8,14 @@ namespace fpsRed.Graphics.RendererFeatures
     {
         [SerializeField] private bool runInSceneView;
         [SerializeField] private RedPalettePassSettings settings;
-        private RedPalettePass pixelatePass;
+        private RedPalettePass redPalettePass;
 
         private Material material;
 
         public override void Create()
         {
             material = CoreUtils.CreateEngineMaterial("Screen/RedPalette");
-            pixelatePass = new RedPalettePass(settings, material);
+            redPalettePass = new RedPalettePass(settings, material);
         }
 
         protected override void Dispose(bool disposing)
@@ -25,8 +25,8 @@ namespace fpsRed.Graphics.RendererFeatures
 
         public override void SetupRenderPasses(ScriptableRenderer renderer, in RenderingData renderingData)
         {
-            pixelatePass.ConfigureInput(ScriptableRenderPassInput.Color);
-            pixelatePass.SetTarget(renderer.cameraColorTargetHandle);
+            redPalettePass.ConfigureInput(ScriptableRenderPassInput.Color);
+            redPalettePass.SetTarget(renderer.cameraColorTargetHandle);
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
@@ -34,7 +34,7 @@ namespace fpsRed.Graphics.RendererFeatures
 #if UNITY_EDITOR
             if (!runInSceneView && renderingData.cameraData.isSceneViewCamera) { return; }
 #endif
-            renderer.EnqueuePass(pixelatePass);
+            renderer.EnqueuePass(redPalettePass);
         }
     }
 

@@ -73,10 +73,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb753a48f5750e649a73bd40ccea8226, type: 3}
   m_Name: RedPaletteFeature
   m_EditorClassIdentifier: 
-  m_Active: 0
-  runInSceneView: 1
+  m_Active: 1
+  runInSceneView: 0
   settings:
-    <RenderPassEvent>k__BackingField: 550
+    <RenderPassEvent>k__BackingField: 600
     <RedThreshold>k__BackingField: 0.8
     <PaletteSize>k__BackingField: 6
     <Palette>k__BackingField: {fileID: 2800000, guid: d276b15920332354da67c6b16413ce0e,
