@@ -73,7 +73,7 @@ namespace fpsRed.UI.Pause
         private void ClosePauseMenu()
         {
             playerInput.SwitchCurrentActionMap("Player");
-            Time.timeScale = 1f;
+            Time.timeScale = 0.5f;
             Cursor.visible = false;
 
             Paused = false;

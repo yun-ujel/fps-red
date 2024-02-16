@@ -12,7 +12,7 @@ namespace fpsRed.UI.Options
         private PlayerInput playerInput;
         private InputBinding binding;
 
-        private float queuedSensChange;
+        private float queuedSensChange = 1f;
 
         [Space, SerializeField] private Toggle invertYToggle;
 
