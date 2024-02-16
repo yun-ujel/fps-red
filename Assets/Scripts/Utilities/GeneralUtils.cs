@@ -18,5 +18,11 @@ namespace fpsRed.Utilities
 
             return cachedPlayerInput;
         }
+
+        public static Vector3 Horizontal(this Vector3 vector)
+        {
+            vector.y = 0f;
+            return vector;
+        }
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace fpsRed.Player
@@ -9,25 +7,34 @@ namespace fpsRed.Player
     {
         [Tooltip("If a collision's normal (on the Y axis) is above this value, the surface will be considered ground")]
         [SerializeField, Range(0f, 1f)] private float groundNormalThreshold = 0.9f;
-
         public bool OnGround { get; private set; }
 
-        private void EvaluateCollision(Collision collision)
+        public event System.EventHandler<System.EventArgs> OnHitGroundEvent;
+
+        private bool EvaluateCollision(Collision collision)
         {
+            bool landed = false;
             for (int i = 0; i < collision.contactCount; i++)
             {
-                OnGround |= collision.contacts[i].normal.y >= groundNormalThreshold;
+                landed |= collision.contacts[i].normal.y >= groundNormalThreshold;
             }
+            OnGround |= landed;
+
+            return landed;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            EvaluateCollision(collision);
+            bool wasOnGround = OnGround;
+            if (!wasOnGround && EvaluateCollision(collision))
+            {
+                OnHitGroundEvent?.Invoke(this, new());
+            }
         }
 
         private void OnCollisionStay(Collision collision)
         {
-            EvaluateCollision(collision);
+            _ = EvaluateCollision(collision);
         }
 
         private void OnCollisionExit(Collision collision)
