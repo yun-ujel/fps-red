@@ -22,6 +22,7 @@ namespace fpsRed.Player
         [SerializeField, Range(0f, 30f)] private float jumpForce;
         [Space, SerializeField, Range(0f, 1f)] private float jumpBuffer = 0.1f;
         private float jumpBufferCounter;
+        private bool jumpingThisFrame;
 
         private Vector3 moveInput;
 
@@ -60,6 +61,7 @@ namespace fpsRed.Player
         {
             body.velocity += jumpForce * Vector3.up;
             jumpBufferCounter = 0f;
+            jumpingThisFrame = true;
         }
 
         private void ReceiveMoveInput(InputAction.CallbackContext ctx)
@@ -111,16 +113,13 @@ namespace fpsRed.Player
         private void FixedUpdate()
         {
             ProcessHorizontalMovement();
-        }
-
-        private void Update()
-        {
-            if (jumpBufferCounter > 0f && collisionCheck.OnGround)
+            if (jumpBufferCounter > 0f && collisionCheck.OnGround && !jumpingThisFrame)
             {
                 Jump();
                 return;
             }
-            jumpBufferCounter -= Time.deltaTime;
+            jumpBufferCounter -= Time.fixedDeltaTime;
+            jumpingThisFrame = false;
         }
     }
 }
