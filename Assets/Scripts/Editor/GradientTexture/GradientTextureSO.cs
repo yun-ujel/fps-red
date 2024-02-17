@@ -12,5 +12,6 @@ namespace fpsRed.Graphics.GradientTextures
 
         [Header("Texture")]
         [SerializeField] private Vector2Int size;
+        [SerializeField, HideInInspector] private Texture2D texture;
     }
 }
