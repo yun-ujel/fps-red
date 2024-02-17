@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 using fpsRed.Utilities;
-using Unity.PlasticSCM.Editor.WebApi;
 
 namespace fpsRed.Player
 {
@@ -41,14 +40,14 @@ namespace fpsRed.Player
         [SerializeField] private LayerMask groundLayers;
 
         [Header("Speed Values")]
-        [SerializeField] private float maxSpeed = 16f;
-        [SerializeField] private float crouchSpeed = 8f;
+        [SerializeField] private float maxSpeed = 12f;
+        [SerializeField] private float crouchSpeed = 6f;
 
-        [Space, SerializeField] private float groundAcceleration = 160f;
-        [SerializeField] private float airAcceleration = 32f;
+        [Space, SerializeField] private float groundAcceleration = 120f;
+        [SerializeField] private float airAcceleration = 24f;
 
         [Space, SerializeField, Range(0f, 30f)] private float groundFriction = 8f;
-        [SerializeField, Range(0f, 30f)] private float slideFriction = 2f;
+        [SerializeField, Range(0f, 30f)] private float slideFriction = 1f;
 
         [Header("Jump Values")]
         [SerializeField, Range(0f, 30f)] private float jumpForce = 16f;
@@ -59,7 +58,8 @@ namespace fpsRed.Player
         [SerializeField, Range(0f, 5f)] private float crouchedHeight = 1f;
 
         [Space, SerializeField, Range(0f, 10f)] private float minSlideDuration = 0.5f;
-        [SerializeField, Range(0f, 30f)] private float slideForce = 10f;
+        [SerializeField, Range(0f, 30f)] private float groundSlideForce = 8f;
+        [SerializeField, Range(0f, 30f)] private float landingSlideForce = 4f;
         private float heightDifference => defaultPlayerHeight - crouchedHeight;
         #endregion
 
@@ -169,7 +169,7 @@ namespace fpsRed.Player
         {
             if (IsCrouched && body.velocity.Horizontal().sqrMagnitude > 0.1f)
             {
-                EnterSlide();
+                EnterSlide(true);
             }
         }
 
@@ -194,9 +194,9 @@ namespace fpsRed.Player
             boxCollider.size = new Vector3(boxCollider.size.x, crouchedHeight, boxCollider.size.z);
             boxCollider.center -= heightDifference / 2 * Vector3.up;
 
-            if (body.velocity.Horizontal().sqrMagnitude > 0.1f)
+            if (body.velocity.Horizontal().sqrMagnitude > 0.1f && collisionCheck.OnGround)
             {
-                EnterSlide();
+                EnterSlide(false);
             }
 
             OnCrouchEvent?.Invoke(this, new(IsCrouched, heightDifference));
@@ -219,11 +219,13 @@ namespace fpsRed.Player
         #endregion
 
         #region Slide
-        private void EnterSlide()
+        private void EnterSlide(bool landingSlide)
         {
             slideCounter = CalculateSlideDuration(out float proportion);
+            Vector3 direction = body.velocity.Horizontal().normalized;
+            float slideForce = landingSlide ? landingSlideForce : groundSlideForce;
 
-            body.velocity += body.velocity.Horizontal().normalized * (slideForce * Mathf.Clamp01(proportion));
+            body.velocity += direction * (slideForce * Mathf.Clamp01(proportion));
         }
 
         private float CalculateSlideDuration(out float proportion)

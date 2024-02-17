@@ -10,9 +10,13 @@ namespace fpsRed.Animation
     public class PlayerAnimator : MonoBehaviour
     {
         [Header("Player References")]
-        [SerializeField] private PlayerMovement movement;
         [SerializeField] private Rigidbody body;
         [SerializeField] private CollisionCheck collisionCheck;
+
+        [Space]
+
+        [SerializeField] private PlayerMovement movement;
+        [SerializeField] private GunHand gunHand;
 
         private Animator animator;
         private PlayerInput playerInput;
@@ -26,17 +30,31 @@ namespace fpsRed.Animation
 
             playerInput.actions["Player/Move"].performed += ReceiveMoveInput;
             playerInput.actions["Player/Move"].canceled += ReceiveMoveInput;
+
+            gunHand.OnPunchEvent += OnPunch;
+            gunHand.OnFireEvent += OnFire;
         }
 
         private void Update()
         {
             animator.SetFloat("_Speed", GetSpeed());
             animator.SetBool("_Sliding", movement.IsSliding);
+            animator.SetBool("_Aiming", gunHand.IsAiming);
         }
 
         private void ReceiveMoveInput(InputAction.CallbackContext ctx)
         {
             moveInput = ctx.ReadValue<Vector2>().sqrMagnitude;
+        }
+
+        private void OnPunch(object sender, GunHand.OnPunchEventArgs args)
+        {
+            animator.Play("Punch");
+        }
+
+        private void OnFire(object sender, GunHand.OnFireEventArgs args)
+        {
+            animator.Play("Fire");
         }
 
         private float GetSpeed()
