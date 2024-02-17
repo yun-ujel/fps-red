@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 using fpsRed.Utilities;
+using static fpsRed.Player.CollisionCheck;
 
 namespace fpsRed.Player
 {
@@ -65,7 +66,8 @@ namespace fpsRed.Player
 
         #region Exposed
         public bool IsCrouched { get; private set; }
-        public bool IsSliding => IsCrouched && slideCounter > 0f && collisionCheck.OnGround;
+        public bool IsSliding => IsCrouched && slideCounter > 0f && collisionCheck.OnSurface;
+        public Vector3 WishDir { get; private set; }
         #endregion
 
         #region Private
@@ -76,10 +78,16 @@ namespace fpsRed.Player
 
         private float jumpBufferCounter;
         private bool jumpingThisFrame;
+        private float bodyYVelocity
+        {
+            set
+            {
+                body.velocity = new Vector3(body.velocity.x, value, body.velocity.z);
+            }
+        }
 
         private Vector3 moveInput;
 
-        private Vector3 wishDir;
         private float addSpeed;
         private float currentSpeed;
         private float acceleration;
@@ -122,7 +130,7 @@ namespace fpsRed.Player
                 slideCounter -= Time.fixedDeltaTime;
             }
 
-            if (jumpBufferCounter > 0f && collisionCheck.OnGround && !jumpingThisFrame)
+            if (jumpBufferCounter > 0f && collisionCheck.OnSurface && !jumpingThisFrame)
             {
                 Jump();
                 return;
@@ -134,7 +142,7 @@ namespace fpsRed.Player
         #region Input Methods
         private void ReceiveJumpInput(InputAction.CallbackContext ctx)
         {
-            if (collisionCheck.OnGround)
+            if (collisionCheck.OnSurface)
             {
                 Jump();
                 return;
@@ -158,14 +166,14 @@ namespace fpsRed.Player
 
         private void Jump()
         {
-            body.velocity += jumpForce * Vector3.up;
+            bodyYVelocity = jumpForce;
             jumpBufferCounter = 0f;
             jumpingThisFrame = true;
 
             OnJumpEvent?.Invoke(this, new(jumpForce));
         }
 
-        private void OnHitGround(object sender, System.EventArgs args)
+        private void OnHitGround(object sender, OnHitGroundEventArgs args)
         {
             if (IsCrouched && body.velocity.Horizontal().sqrMagnitude > 0.1f)
             {
@@ -194,7 +202,7 @@ namespace fpsRed.Player
             boxCollider.size = new Vector3(boxCollider.size.x, crouchedHeight, boxCollider.size.z);
             boxCollider.center -= heightDifference / 2 * Vector3.up;
 
-            if (body.velocity.Horizontal().sqrMagnitude > 0.1f && collisionCheck.OnGround)
+            if (body.velocity.Horizontal().sqrMagnitude > 0.1f && collisionCheck.OnSurface)
             {
                 EnterSlide(false);
             }
@@ -222,7 +230,7 @@ namespace fpsRed.Player
         private void EnterSlide(bool landingSlide)
         {
             slideCounter = CalculateSlideDuration(out float proportion);
-            Vector3 direction = body.velocity.Horizontal().normalized;
+            Vector3 direction = collisionCheck.OnGround ? body.velocity.Horizontal().normalized : body.velocity.normalized;
             float slideForce = landingSlide ? landingSlideForce : groundSlideForce;
 
             body.velocity += direction * (slideForce * Mathf.Clamp01(proportion));
@@ -242,15 +250,15 @@ namespace fpsRed.Player
         #region Horizontal Movement
         private void ProcessHorizontalMovement()
         {
-            wishDir = CalculateWishDir();
+            WishDir = CalculateWishDir();
 
-            float speed = IsCrouched && collisionCheck.OnGround ? crouchSpeed : maxSpeed;
+            float speed = IsCrouched && collisionCheck.OnSurface ? crouchSpeed : maxSpeed;
+            acceleration = collisionCheck.OnSurface ? groundAcceleration : airAcceleration;
 
-            acceleration = collisionCheck.OnGround ? groundAcceleration : airAcceleration;
-            currentSpeed = Vector3.Dot(body.velocity, wishDir);
+            currentSpeed = Vector3.Dot(body.velocity, WishDir);
             addSpeed = Mathf.Clamp(speed - currentSpeed, 0f, acceleration * Time.fixedDeltaTime);
 
-            body.velocity += wishDir * addSpeed;
+            body.velocity += WishDir * addSpeed;
             
             DrawMovementRays();
         }
@@ -261,6 +269,11 @@ namespace fpsRed.Player
             Vector3 wishDir = lookTransform.forward * moveInput.z;
             wishDir += lookTransform.right * moveInput.x;
 
+            if (collisionCheck.OnSlope)
+            {
+                wishDir = Vector3.ProjectOnPlane(wishDir, collisionCheck.SlopeNormal);
+                return wishDir.normalized;
+            }
             wishDir.y = 0f;
 
             return wishDir.normalized;
@@ -268,7 +281,7 @@ namespace fpsRed.Player
 
         private void ApplyFriction()
         {
-            if (!collisionCheck.OnGround)
+            if (!collisionCheck.OnSurface)
             {
                 return;
             }
@@ -288,7 +301,7 @@ namespace fpsRed.Player
         private void DrawMovementRays()
         {
             Debug.DrawRay(transform.position, lookTransform.forward, Color.red);
-            Debug.DrawRay(transform.position, wishDir, Color.blue);
+            Debug.DrawRay(transform.position, WishDir, Color.blue);
             Debug.DrawRay(transform.position, new Vector3(body.velocity.x, 0f, body.velocity.z), Color.green);
         }
         #endregion
