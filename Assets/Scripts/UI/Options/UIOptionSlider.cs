@@ -20,7 +20,7 @@ namespace fpsRed.UI.Options
                 OnSliderChanged(value);
             });
 
-            inputField.onValueChanged.AddListener((value) =>
+            inputField.onEndEdit.AddListener((value) =>
             {
                 slider.value = float.Parse(value);
                 OnInputChanged(value);

@@ -32,7 +32,7 @@ namespace fpsRed.Animation
             playerInput.actions["Player/Move"].canceled += ReceiveMoveInput;
 
             gunHand.OnPunchEvent += OnPunch;
-            gunHand.OnFireEvent += OnFire;
+            gunHand.OnShootEvent += OnFire;
         }
 
         private void Update()
@@ -52,7 +52,7 @@ namespace fpsRed.Animation
             animator.Play("Punch");
         }
 
-        private void OnFire(object sender, GunHand.OnFireEventArgs args)
+        private void OnFire(object sender, GunHand.OnShootEventArgs args)
         {
             animator.Play("Fire");
         }
