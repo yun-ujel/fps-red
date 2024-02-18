@@ -56,7 +56,7 @@ MonoBehaviour:
     passOperation: 2
     failOperation: 0
     zFailOperation: 0
-  m_ShadowTransparentReceive: 1
+  m_ShadowTransparentReceive: 0
   m_RenderingMode: 0
   m_DepthPrimingMode: 0
   m_CopyDepthMode: 1
@@ -75,9 +75,9 @@ MonoBehaviour:
   m_Name: DownwellFeature
   m_EditorClassIdentifier: 
   m_Active: 1
-  runInSceneView: 0
+  runInSceneView: 1
   settings:
-    <RenderPassEvent>k__BackingField: 550
+    <RenderPassEvent>k__BackingField: 450
     PixelScreenHeight: 540
     <Palette>k__BackingField: {fileID: 2800000, guid: 23483679d657a2a44b3092b52d18c48c,
       type: 3}
