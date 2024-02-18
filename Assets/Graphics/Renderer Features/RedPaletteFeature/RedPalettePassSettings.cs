@@ -9,7 +9,11 @@ namespace fpsRed.Graphics.RendererFeatures
     {
         [field: SerializeField] public RenderPassEvent RenderPassEvent { get; set; } = RenderPassEvent.BeforeRenderingPostProcessing;
         [field: SerializeField, Range(0f, 1f)] public float RedThreshold { get; set; }
-        [field: Header("Palette"), SerializeField, Range(2, 32)] public int PaletteSize { get; set; }
+        [field: Header("Palette"), SerializeField] public int PaletteSize { get; set; }
         [field: SerializeField] public Texture2D Palette { get; set; }
+
+        [field: Header("Dithering"), SerializeField] public float DitherSpread { get; set; }
+        [field: SerializeField, Range(0, 2)] public int BayerLevel { get; set; }
+        [field: SerializeField] public float DitherScale { get; set; }
     }
 }

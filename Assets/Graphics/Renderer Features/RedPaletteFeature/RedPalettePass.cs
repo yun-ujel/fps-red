@@ -39,6 +39,10 @@ namespace fpsRed.Graphics.RendererFeatures
                 material.SetInt("_PaletteSize", settings.PaletteSize);
                 material.SetTexture("_PaletteTexture", settings.Palette);
 
+                material.SetFloat("_DitherSpread", settings.DitherSpread);
+                material.SetInt("_BayerLevel", settings.BayerLevel);
+                material.SetFloat("_DitherScale", settings.DitherScale);
+
                 Blitter.BlitCameraTexture(cmd, cameraColorTarget, cameraColorTarget, material, 0);
             }
             context.ExecuteCommandBuffer(cmd);
