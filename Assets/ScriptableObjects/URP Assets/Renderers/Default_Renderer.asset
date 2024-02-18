@@ -18,7 +18,8 @@ MonoBehaviour:
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
   - {fileID: 2614747084514683457}
-  m_RendererFeatureMap: 416afcad9e724924
+  - {fileID: 3894629723778216954}
+  m_RendererFeatureMap: 416afcad9e724924fa737a6119810c36
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 0}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -78,9 +79,34 @@ MonoBehaviour:
   settings:
     <RenderPassEvent>k__BackingField: 550
     PixelScreenHeight: 540
-    <PaletteSize>k__BackingField: 6
-    <Palette>k__BackingField: {fileID: 2800000, guid: d276b15920332354da67c6b16413ce0e,
+    <Palette>k__BackingField: {fileID: 2800000, guid: 23483679d657a2a44b3092b52d18c48c,
       type: 3}
+    <PaletteSize>k__BackingField: 8
     <RedThreshold>k__BackingField: 0
+    <RedPalette>k__BackingField: {fileID: 2800000, guid: fc596dbffe7817949ba8ec43466dd11a,
+      type: 3}
+    <RedPaletteSize>k__BackingField: 16
     <DitherSpread>k__BackingField: 0.1
     <BayerLevel>k__BackingField: 1
+--- !u!114 &3894629723778216954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f594849dc885926498f1f57bc81e4bda, type: 3}
+  m_Name: PaletteFeature
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  runInSceneView: 0
+  settings:
+    <RenderPassEvent>k__BackingField: 550
+    PixelScreenHeight: 540
+    <RedColourCount>k__BackingField: 4
+    <GreenColourCount>k__BackingField: 4
+    <BlueColourCount>k__BackingField: 4
+    <DitherSpread>k__BackingField: 0.1
+    <BayerLevel>k__BackingField: 0

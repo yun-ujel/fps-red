@@ -39,14 +39,15 @@ namespace fpsRed.Graphics.RendererFeatures
                 int screenHeight = settings.PixelScreenHeight;
                 int screenWidth = Mathf.RoundToInt(renderingData.cameraData.camera.aspect * screenHeight);
 
-                material.SetInt("_PixelScaleFactor", 2);
-
                 material.SetVector("_BlockCount", new Vector2(screenWidth, screenHeight));
                 material.SetVector("_BlockSize", new Vector2(1.0f / screenWidth, 1.0f / screenHeight));
                 material.SetVector("_HalfBlockSize", new Vector2(0.5f / screenWidth, 0.5f / screenHeight));
 
-                material.SetInt("_PaletteSize", settings.PaletteSize);
                 material.SetTexture("_PaletteTexture", settings.Palette);
+                material.SetInt("_PaletteSize", settings.PaletteSize);
+
+                material.SetTexture("_RedPaletteTexture", settings.RedPalette);
+                material.SetInt("_RedPaletteSize", settings.RedPaletteSize);
 
                 material.SetFloat("_DitherSpread", settings.DitherSpread);
                 material.SetInt("_BayerLevel", settings.BayerLevel);

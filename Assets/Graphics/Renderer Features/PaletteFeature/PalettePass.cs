@@ -32,10 +32,21 @@ namespace fpsRed.Graphics.RendererFeatures
             }
 
             CommandBuffer cmd = CommandBufferPool.Get();
-            using (new ProfilingScope(cmd, new ProfilingSampler("Pixelate Pass")))
+            using (new ProfilingScope(cmd, new ProfilingSampler("Palette Pass")))
             {
-                material.SetInt("_PaletteSize", settings.PaletteSize);
-                material.SetTexture("_PaletteTexture", settings.Palette);
+                int screenHeight = settings.PixelScreenHeight;
+                int screenWidth = Mathf.RoundToInt(renderingData.cameraData.camera.aspect * screenHeight);
+
+                material.SetVector("_BlockCount", new Vector2(screenWidth, screenHeight));
+                material.SetVector("_BlockSize", new Vector2(1.0f / screenWidth, 1.0f / screenHeight));
+                material.SetVector("_HalfBlockSize", new Vector2(0.5f / screenWidth, 0.5f / screenHeight));
+
+                material.SetInt("_RedColourCount", settings.RedColourCount);
+                material.SetInt("_GreenColourCount", settings.GreenColourCount);
+                material.SetInt("_BlueColourCount", settings.BlueColourCount);
+
+                material.SetFloat("_DitherSpread", settings.DitherSpread);
+                material.SetInt("_BayerLevel", settings.BayerLevel);
 
                 Blitter.BlitCameraTexture(cmd, cameraColorTarget, cameraColorTarget, material, 0);
             }

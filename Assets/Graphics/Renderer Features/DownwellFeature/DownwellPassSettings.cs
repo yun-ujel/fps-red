@@ -12,9 +12,13 @@ namespace fpsRed.Graphics.RendererFeatures
         
         [field: Header("Pixelation"), SerializeField] public int PixelScreenHeight;
         
-        [field: Header("Palette"), SerializeField] public int PaletteSize { get; set; }
-        [field: SerializeField] public Texture2D Palette { get; set; }
-        [field: SerializeField, Range(0f, 1f)] public float RedThreshold { get; set; }
+        [field: Header("Palette"), SerializeField] public Texture2D Palette { get; set; }
+        [field: SerializeField] public int PaletteSize { get; set; }
+
+        [field: Space, SerializeField, Range(0f, 1f)] public float RedThreshold { get; set; }
+        [field: SerializeField] public Texture2D RedPalette { get; set; }
+        [field: SerializeField] public int RedPaletteSize { get; set; }
+
 
         [field: Header("Dithering"), SerializeField] public float DitherSpread { get; set; }
         [field: SerializeField, Range(0, 2)] public int BayerLevel { get; set; }

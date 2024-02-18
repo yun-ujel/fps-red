@@ -26,13 +26,15 @@ Shader "Screen/Downwell"
             float2 _HalfBlockSize;
 
             TEXTURE2D(_PaletteTexture);
-
-            float _RedThreshold;
             int _PaletteSize;
 
+            TEXTURE2D(_RedPaletteTexture);
+            int _RedPaletteSize;
+
+            float _RedThreshold;
+
             int _BayerLevel;
-            float _DitherSpread;
-            float _DitherScale;
+            float _DitherSpread;            
 
             static const int bayer2[2 * 2] = {
                 0, 2,
@@ -75,7 +77,7 @@ Shader "Screen/Downwell"
                 float2 blockPos = floor(input.texcoord * _BlockCount);
                 float2 blockCenter = blockPos * _BlockSize + _HalfBlockSize;
 
-                half4 color = _CameraOpaqueTexture.Sample(sampler_point_clamp, blockCenter);
+                float4 color = _CameraOpaqueTexture.Sample(sampler_point_clamp, blockCenter);
                 
                 half redValue = color;
                 redValue -= color.b;
@@ -86,14 +88,15 @@ Shader "Screen/Downwell"
                 bayerValues[1] = GetBayer4(blockPos.x, blockPos.y);
                 bayerValues[2] = GetBayer8(blockPos.x, blockPos.y);
 
-                half4 red = half4(1, 0, 0, 1);
-
                 float4 output = color + _DitherSpread * bayerValues[_BayerLevel];
 
                 half quantize = floor(output * (_PaletteSize - 1) + 0.5) / (_PaletteSize - 1);
                 output = _PaletteTexture.Sample(sampler_point_clamp, quantize);
 
-                return output;
+                half redQuantize = floor(output * (_RedPaletteSize - 1) + 0.5) / (_RedPaletteSize - 1);
+                float4 redOutput = _RedPaletteTexture.Sample(sampler_point_clamp, redQuantize);
+
+                return redValue > _RedThreshold ? redOutput : output;
 
 
             }
