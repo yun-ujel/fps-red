@@ -1,25 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2639999696505503633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb753a48f5750e649a73bd40ccea8226, type: 3}
-  m_Name: RedPaletteFeature
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  runInSceneView: 1
-  settings:
-    <RenderPassEvent>k__BackingField: 550
-    <RedThreshold>k__BackingField: 0.5
-    <PaletteSize>k__BackingField: 512
-    <Palette>k__BackingField: {fileID: 2800000, guid: e1832ee0d3772ea408fbd212772ae99f,
-      type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37,8 +17,8 @@ MonoBehaviour:
       type: 3}
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
-  - {fileID: -2639999696505503633}
-  m_RendererFeatureMap: 6f80a66a43d65cdb
+  - {fileID: 2614747084514683457}
+  m_RendererFeatureMap: 416afcad9e724924
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 0}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -81,3 +61,26 @@ MonoBehaviour:
   m_CopyDepthMode: 1
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
+--- !u!114 &2614747084514683457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80f7f5c7dcd29c94dbbc49844f161989, type: 3}
+  m_Name: DownwellFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  runInSceneView: 0
+  settings:
+    <RenderPassEvent>k__BackingField: 550
+    PixelScreenHeight: 540
+    <PaletteSize>k__BackingField: 6
+    <Palette>k__BackingField: {fileID: 2800000, guid: d276b15920332354da67c6b16413ce0e,
+      type: 3}
+    <RedThreshold>k__BackingField: 0
+    <DitherSpread>k__BackingField: 0.1
+    <BayerLevel>k__BackingField: 1

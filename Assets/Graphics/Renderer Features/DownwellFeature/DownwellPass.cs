@@ -4,9 +4,9 @@ using UnityEngine.Rendering.Universal;
 
 namespace fpsRed.Graphics.RendererFeatures
 {
-    public class RedPalettePass : ScriptableRenderPass
+    public class DownwellPass : ScriptableRenderPass
     {
-        public RedPalettePass(RedPalettePassSettings settings, Material material)
+        public DownwellPass(DownwellPassSettings settings, Material material)
         {
             this.settings = settings;
             renderPassEvent = settings.RenderPassEvent;
@@ -14,7 +14,7 @@ namespace fpsRed.Graphics.RendererFeatures
             this.material = material;
         }
 
-        private RedPalettePassSettings settings;
+        private DownwellPassSettings settings;
         private RTHandle cameraColorTarget;
 
         private Material material;
@@ -32,16 +32,24 @@ namespace fpsRed.Graphics.RendererFeatures
             }
 
             CommandBuffer cmd = CommandBufferPool.Get();
-            using (new ProfilingScope(cmd, new ProfilingSampler("Pixelate Pass")))
+            using (new ProfilingScope(cmd, new ProfilingSampler("Downwell Pass")))
             {
                 material.SetFloat("_RedThreshold", settings.RedThreshold);
+
+                int screenHeight = settings.PixelScreenHeight;
+                int screenWidth = Mathf.RoundToInt(renderingData.cameraData.camera.aspect * screenHeight);
+
+                material.SetInt("_PixelScaleFactor", 2);
+
+                material.SetVector("_BlockCount", new Vector2(screenWidth, screenHeight));
+                material.SetVector("_BlockSize", new Vector2(1.0f / screenWidth, 1.0f / screenHeight));
+                material.SetVector("_HalfBlockSize", new Vector2(0.5f / screenWidth, 0.5f / screenHeight));
 
                 material.SetInt("_PaletteSize", settings.PaletteSize);
                 material.SetTexture("_PaletteTexture", settings.Palette);
 
                 material.SetFloat("_DitherSpread", settings.DitherSpread);
                 material.SetInt("_BayerLevel", settings.BayerLevel);
-                material.SetFloat("_DitherScale", settings.DitherScale);
 
                 Blitter.BlitCameraTexture(cmd, cameraColorTarget, cameraColorTarget, material, 0);
             }

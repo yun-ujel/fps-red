@@ -1,4 +1,4 @@
-Shader "Screen/RedPalette"
+Shader "Screen/Downwell"
 {
     SubShader
     {
@@ -20,7 +20,10 @@ Shader "Screen/RedPalette"
             
             SamplerState sampler_point_clamp;
             TEXTURE2D(_CameraOpaqueTexture);
-            float4 _CameraOpaqueTexture_TexelSize;
+            
+            float2 _BlockCount;
+            float2 _BlockSize;
+            float2 _HalfBlockSize;
 
             TEXTURE2D(_PaletteTexture);
 
@@ -69,19 +72,19 @@ Shader "Screen/RedPalette"
 
             half4 frag (Varyings input) : SV_Target
             {
-                half4 color = _CameraOpaqueTexture.Sample(sampler_point_clamp, input.texcoord);
+                float2 blockPos = floor(input.texcoord * _BlockCount);
+                float2 blockCenter = blockPos * _BlockSize + _HalfBlockSize;
+
+                half4 color = _CameraOpaqueTexture.Sample(sampler_point_clamp, blockCenter);
                 
                 half redValue = color;
                 redValue -= color.b;
                 redValue -= color.g;
 
-                int x = input.texcoord.x * _CameraOpaqueTexture_TexelSize.z * _DitherScale;
-                int y = input.texcoord.y * _CameraOpaqueTexture_TexelSize.w * _DitherScale;
-
                 float bayerValues[3] = { 0, 0, 0 };
-                bayerValues[0] = GetBayer2(x, y);
-                bayerValues[1] = GetBayer4(x, y);
-                bayerValues[2] = GetBayer8(x, y);
+                bayerValues[0] = GetBayer2(blockPos.x, blockPos.y);
+                bayerValues[1] = GetBayer4(blockPos.x, blockPos.y);
+                bayerValues[2] = GetBayer8(blockPos.x, blockPos.y);
 
                 half4 red = half4(1, 0, 0, 1);
 

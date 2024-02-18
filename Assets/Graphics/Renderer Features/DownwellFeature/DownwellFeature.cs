@@ -4,18 +4,18 @@ using UnityEngine.Rendering.Universal;
 
 namespace fpsRed.Graphics.RendererFeatures
 {
-    public class RedPaletteFeature : ScriptableRendererFeature
+    public class DownwellFeature : ScriptableRendererFeature
     {
         [SerializeField] private bool runInSceneView;
-        [SerializeField] private RedPalettePassSettings settings;
-        private RedPalettePass redPalettePass;
+        [SerializeField] private DownwellPassSettings settings;
+        private DownwellPass downwellPass;
 
         private Material material;
 
         public override void Create()
         {
-            material = CoreUtils.CreateEngineMaterial("Screen/RedPalette");
-            redPalettePass = new RedPalettePass(settings, material);
+            material = CoreUtils.CreateEngineMaterial("Screen/Downwell");
+            downwellPass = new DownwellPass(settings, material);
         }
 
         protected override void Dispose(bool disposing)
@@ -25,8 +25,8 @@ namespace fpsRed.Graphics.RendererFeatures
 
         public override void SetupRenderPasses(ScriptableRenderer renderer, in RenderingData renderingData)
         {
-            redPalettePass.ConfigureInput(ScriptableRenderPassInput.Color);
-            redPalettePass.SetTarget(renderer.cameraColorTargetHandle);
+            downwellPass.ConfigureInput(ScriptableRenderPassInput.Color);
+            downwellPass.SetTarget(renderer.cameraColorTargetHandle);
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
@@ -34,7 +34,7 @@ namespace fpsRed.Graphics.RendererFeatures
 #if UNITY_EDITOR
             if (!runInSceneView && renderingData.cameraData.isSceneViewCamera) { return; }
 #endif
-            renderer.EnqueuePass(redPalettePass);
+            renderer.EnqueuePass(downwellPass);
         }
     }
 
