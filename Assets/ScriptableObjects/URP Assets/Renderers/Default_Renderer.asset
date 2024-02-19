@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Name: DownwellFeature
   m_EditorClassIdentifier: 
   m_Active: 1
-  runInSceneView: 1
+  runInSceneView: 0
   settings:
     <RenderPassEvent>k__BackingField: 450
     PixelScreenHeight: 540
